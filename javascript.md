@@ -37,7 +37,7 @@ Each time a new block or block-like construct is opened, the indent increases by
 Each statement belongs in its own line and should be followed by a semicolon and a line-break.
 
 ## Line-Wrapping and Column limit
-JavaScript code has a column limit of `80` characters. Any line that would exceed this limit must be line-wrapped.
+JavaScript code has a column limit of `80` characters. Any line that would exceed this limit must be line-wrapped. The only exception involves existing code making line-wrapping to the 80-character limit impossible; at that point, the code should line-wrap based on discretion of those involved in the development/review process.
 
 When line-wrapping, each line after the first (each continuation line) is indented at least +4 from the original line, unless it falls under the rules of block indentation.
 
