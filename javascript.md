@@ -18,6 +18,36 @@ The LeanData style guide was created organically, and does not seek to be compre
 
 The style guide does not seek to be prescriptive towards *existing* code. Instead, the expectation is that any *new* code added into the LeanData codebase is style-compliant. Likewise, editing existing lines of code should **only** make style-compliant the lines **directly** modified.
 
+# General
+
+## Follow [LIFT](https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md#application-structure-lift-principle):
+
+Create code so that:
+
+**Locate** - others can quickly and intuitively debug and locate related codes
+
+**Identify** - file and variable names should clearly represent the content (don't be afraid of long names, but don't go crazy)
+
+**Flat** - Keep a flat folder structure (7-10 files per folder as a rule of thumb). When exceeding 7-10, consider separation into subfolder, with subfolders representing a well-decoupled sub-feature or functionality.
+
+**Try to stick to DRY** - keep it simple and avoid redundancy when it's obvious. (i.e. intNumberOfEmployees vs. numberOfEmployees, funcProcessData vs. processData) Don't sacrifice readability.
+
+## DRY - Don't Repeat Yourself
+
+For the libraries used by LeanData - LoDash, JQuery - avoid repeating existing functionality.
+
+### Extend Code when Needed
+When libraries, UI components or code can be consolidated, shared or extended to accomplish a task, brand new standalone code should not be created.
+
+### Centralize Code when Needed
+If code needed exists in a particular component, consider centralizing (floating up) the functionality into a centralized scope. Example areas for possible centralization:
+- Validation
+- Events handling at window/document/wrapper level
+- URL manipulation
+- Date/Time handling
+- Ajax/Remote calls
+- Global settings, configurations and caching
+
 # Formatting
 
 ## Braces are used for all control structures
@@ -81,7 +111,18 @@ const values = [
 ];
 ```
 
-# Naming
+### Use `===`
+Use type strict checks with `===` as opposed to `==` whenever possible.
+
+### Use single quotes for strings
+Quoted values should be in `'single quotes'` so that double quotes may easily exist inside them.
+
+### Do Not Modify `prototype`
+Do not modify javascript core functionalities via `prototype`. Necessary changes need to be discussed with the team.
+
+# Best Practices
+
+## Naming
 
 Identifiers use only ASCII letters and digits, and, in a small number of cases noted below, underscores and very rarely (when required by frameworks like jQuery) dollar signs.
 
@@ -103,3 +144,28 @@ pcReader              // Lots of things can be abbreviated "pc".
 cstmrId               // Deletes internal letters.
 kSecondsPerDay        // Do not use Hungarian notation.
 ```
+
+## Minimize number of global variables
+If absolutely needed for a near-global scope, use `window.foo` or declare variable (`const`/`let`) at the top level without closure. When creating a global variable, it's best to include a a namespace in front of the variable. i.e. `LeanData__globalVariable1`.
+
+## Use JQuery for DOM manipulation
+Use JQuery instead of plain Javascript for DOM manipulation.
+
+## Avoid global selectors
+Avoid globally selecting elements, especially by classes or attributes, even with JQuery.
+
+Instead of $('.some-class'), do this if you can this.$el.find('.some-class') or `$('#my-wrapper .some-class')
+
+## Avoid browser reflow
+Avoid broswer reflow. When possible, toggle classes and show/hide elements instead of adding and removing elements.
+
+## Events Delegation
+Use JQuery Event Delegation appropriately to avoid memory leaks.
+
+## Templating
+When use lodash and backbone for templating, avoid putting too much logic and looping into the HTML. Try to minimize it toward string output and markup rendering only. Logic should go in the `Backbone.View` or the controller.
+
+# Credits
+https://google.github.io/styleguide/jsguide.html
+https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md
+https://isobar-us.github.io/code-standards/
